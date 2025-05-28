@@ -115,15 +115,15 @@ window.onbeforeunload = function(e) {
 		});
 
 		var baseLayers = {
-			"地図": map1
+			"地図": map1,
+			"最近の空中写真": map2,
+			"過去の空中写真（1945年～1950年）":map3,
+			"陰影起伏図":map4	
 		};
 
 		var overlays = {
-			"最近の空中写真": map2,
-			"過去の空中写真（1945年～1950年）":map3,
-			"陰影起伏図":map4,
-		    "洪水浸水想定区域（想定最大規模）": layer1,
-			"避難施設":layer3,
+			"洪水浸水想定区域（想定最大規模）":layer1,
+			"避難施設（国土数値情報を加工）":layer3,
 			"主要な0m以下エリア":layer4
 		};
 
