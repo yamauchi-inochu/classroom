@@ -153,7 +153,7 @@ window.onbeforeunload = function(e) {
 
 	var area = L.layerGroup();
 
-	$.getJSON("https://gg-oer.github.io/classroom/saigai/geojson/10km-mesh.geojson", function (data) {
+	$.getJSON("https://yamauchi-inochu.github.io/classroom/saigai/geojson/10km-mesh.geojson", function (data) {
     L.geoJson(data, {style: LineStyle}).bindPopup(function (layer) {
     return layer.feature.properties.name;
 }).addTo(area)
