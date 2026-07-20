@@ -1,0 +1,238 @@
+<html style="height: 100%; margin: 0;">
+<head>
+
+	<title>topodemo</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+	<script src="./js/leaflet-hash-master/leaflet-hash.js"></script>
+	<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="./dist/leaflet.zoomhome.css"/>
+	<script src="./dist/leaflet.zoomhome.min.js"></script>
+	<script src="./dist/bundle.js"></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css' rel='stylesheet' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js'></script>
+	<script src="./js/L.KML.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+
+	</head>
+	<body style="height: 100%; margin: 0; overflow: hidden;">
+		<div id='map' style="height: 100%; width: 100%; z-index: 1;"></div>
+	</body>
+
+	<script>
+
+window.onbeforeunload = function(e) {
+  return "";
+}
+
+	var map1 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+		minZoom: 2,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル・淡色地図</a>"
+	});
+
+	var anamizu_0105 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102_noto_anamizu_0105do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 穴水地区 正射画像（2024年1月5日撮影）</a>"
+	});
+
+	var anamizu_0111 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_anamizu_0111do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 穴水地区 正射画像（2024年1月11日撮影）</a>"
+	});
+
+	var anamizu_0114 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_anamizu_0114do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 穴水地区 正射画像（2024年1月14日撮影）</a>"
+	});
+
+	var anamizu_0117 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_anamizu_0117do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 穴水地区 正射画像（2024年1月17日撮影）</a>"
+	});
+
+	var nanao_0105 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102_noto_nanao_0105do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 七尾地区 正射画像（2024年1月5日撮影）</a>"
+	});
+
+	var nanao_0117 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_nanao_0117do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 七尾地区 正射画像（2024年1月17日撮影）</a>"
+	});
+
+	var suzu_0102 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_suzu_0102do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 珠洲地区 正射画像（2024年1月2日撮影）</a>"
+	});
+
+	var suzu_0105 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102_noto_suzu_0105do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 珠洲地区 正射画像（2024年1月5日撮影）</a>"
+	});
+
+	var suzu_0114 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_suzu_0114do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 珠洲地区 正射画像（2024年1月14日撮影）</a>"
+	});
+
+	var wajima_e_0102 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimahigashi_0102do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島東地区 正射画像（2024年1月2日撮影）</a>"
+	});
+
+	var wajima_e_0114 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimahigashi_0114do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島東地区 正射画像（2024年1月14日撮影）</a>"
+	});
+
+	var wajima_m_0102 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimanaka_0102do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島中地区 正射画像（2024年1月2日撮影）</a>"
+	});
+
+	var wajima_m_0105 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102_noto_wazimanaka_0105do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島中地区 正射画像（2024年1月5日撮影）</a>"
+	});
+
+	var wajima_m_0111 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimanaka_0111do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島中地区 正射画像（2024年1月11日撮影）</a>"
+	});
+
+	var wajima_w_0111 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimanishi_0111do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島西地区 正射画像（2024年1月11日撮影）</a>"
+	});
+
+	var wajima_w_0117 = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/20240102noto_wazimanishi_0117do/{z}/{x}/{y}.png', {
+		minZoom: 10,
+		maxZoom: 18,
+		attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>令和6年能登半島地震 輪島西地区 正射画像（2024年1月17日撮影）</a>"
+	});
+	
+	
+	var LineStyle = {
+    "color": "#dc143c",
+    "weight": 4,
+    "opacity": 0.8
+};
+
+	var PolygonStyle = {
+	"weight": 2,
+	"color": "#1456db",
+	"opacity": 1,
+	"fillColor": "#1456db",
+	"fillOpacity": 0.3
+	};
+
+	var area = L.layerGroup();
+
+	$.getJSON("https://gg-oer.github.io/classroom/saigai/geojson/10km-mesh.geojson", function (data) {
+    L.geoJson(data, {style: LineStyle}).bindPopup(function (layer) {
+    return layer.feature.properties.name;
+}).addTo(area)
+});
+
+
+		var map = L.map('map', {
+			center: [37.128391, 136.919308],
+			zoom: 10,
+			layers: [map1,area],
+			zoomControl: false
+		});
+
+		var baseLayers = {
+			"地図": map1
+		};
+
+	var overlays = {
+		"対象範囲": area,
+		"穴水地区（2024年1月5日）": anamizu_0105,
+		"穴水地区（2024年1月11日）": anamizu_0111,
+		"穴水地区（2024年1月14日）": anamizu_0114,
+		"穴水地区（2024年1月17日）": anamizu_0117,
+		"七尾地区（2024年1月5日）": nanao_0105,
+		"七尾地区（2024年1月17日）": nanao_0117,
+		"珠洲地区（2024年1月2日）": suzu_0102,
+		"珠洲地区（2024年1月5日）": suzu_0105,
+		"珠洲地区（2024年1月14日）": suzu_0114,
+		"輪島東地区（2024年1月2日）": wajima_e_0102,
+		"輪島東地区（2024年1月14日）": wajima_e_0114,
+		"輪島中地区（2024年1月2日）": wajima_m_0102,
+		"輪島中地区（2024年1月5日）": wajima_m_0105,
+		"輪島中地区（2024年1月11日）": wajima_m_0111,
+		"輪島西地区（2024年1月11日）": wajima_w_0111,
+		"輪島西地区（2024年1月17日）": wajima_w_0117
+	};
+
+		L.control.layers(baseLayers,overlays).addTo(map);
+		L.control.scale({imperial: false}).addTo(map);
+
+		var zoomHome = L.Control.zoomHome();
+		zoomHome.addTo(map);
+		map.addControl(new L.Control.Fullscreen());
+
+		var printer = L.easyPrint({
+			tileLayer: map1,
+			sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+			filename: 'Map',
+			exportOnly: true,
+			hideControlContainer: true
+}).addTo(map);
+
+function manualPrint () {
+	printer.printMap('CurrentSize', 'MyManualPrint')
+}
+
+var hash = new L.Hash(map);
+
+// 図形をまとめるためのオブジェクト
+var drawnItems = new L.FeatureGroup().addTo(map);
+var drawControl = new L.Control.Draw({
+	draw: {
+    polyline: false
+    ,polygon: false
+    ,rectangle: false
+    ,circle: false
+    ,marker: true
+  },
+  edit: {
+    featureGroup: drawnItems
+  }
+  ,position: 'topleft'
+}).addTo(map);
+
+map.on('draw:created', function(e) {
+  drawnItems.addLayer(e.layer);
+});
+
+</script>
+
+
+</html>
